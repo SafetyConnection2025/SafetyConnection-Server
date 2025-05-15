@@ -1,0 +1,3 @@
+[submodule "SafetyConnection-Server-Sub"]
+	path = SafetyConnection-Server-Sub
+	url = https://github.com/SafetyConnection2025/SafetyConnection-Server-Sub.git
