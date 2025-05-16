@@ -9,6 +9,11 @@ import org.example.safetyconnection.dto.response.FCMTokenResDTO;
 import org.example.safetyconnection.dto.response.MemberLocationResDTO;
 import org.example.safetyconnection.entity.Member;
 import org.example.safetyconnection.entity.enums.MemberType;
+import org.example.safetyconnection.exception.LocationSaveFailedException;
+import org.example.safetyconnection.exception.UserAlreadyExistsException;
+import org.example.safetyconnection.exception.UserIdNotFoundException;
+import org.example.safetyconnection.exception.UserNameAlreadyExistsException;
+import org.example.safetyconnection.exception.UserNameNotFoundException;
 import org.example.safetyconnection.jwt.JwtToken;
 import org.example.safetyconnection.jwt.JwtTokenProvider;
 import org.example.safetyconnection.repository.MemberRepository;
@@ -39,7 +44,7 @@ public class MemberCommandService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         Member member = memberRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다."));
+                .orElseThrow(() -> new UserNameNotFoundException(username));
 
         return jwtTokenProvider.generateToken(authentication, member);
     }
@@ -58,12 +63,17 @@ public class MemberCommandService {
         String phoneNumber = memberDTO.phoneNumber();
         MemberType memberType = memberDTO.memberType();
 
+        if (memberRepository.existsByUsername(username)) {
+            throw new UserNameAlreadyExistsException(username);
+        }
+
         return memberRepository.save(new Member(username, name, passwordEncoder.encode(password), email, phoneNumber, memberType));
     }
 
     @Transactional
     public MemberLocationResDTO setLocation(Long userId, MemberLocationReqDTO userLocationReqDTO) {
-        Member member = memberRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
+        Member member = memberRepository.findById(userId)
+            .orElseThrow(() -> new UserIdNotFoundException(userId));
 
         member.setLongitude(userLocationReqDTO.longitude());
         member.setLatitude(userLocationReqDTO.latitude());
@@ -71,12 +81,12 @@ public class MemberCommandService {
         memberRepository.save(member);
 
         return memberRepository.findById(userId).map(MemberLocationResDTO::toDTO)
-                .orElseThrow(() -> new RuntimeException("위치 저장 중 오류 발생"));
+                .orElseThrow(() -> new LocationSaveFailedException(userId));
     }
 
     @Transactional
     public FCMTokenResDTO setFCMToken(Long userId, FCMTokenReqDTO fcmTokenReqDTO) {
-        Member member = memberRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
+        Member member = memberRepository.findById(userId).orElseThrow(() -> new UserIdNotFoundException(userId));
 
         member.setFCMToken(fcmTokenReqDTO.fcmToken());
 
@@ -84,6 +94,6 @@ public class MemberCommandService {
 
         return memberRepository.findById(userId)
                 .map(FCMTokenResDTO::toDTO)
-                .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
+                .orElseThrow(() -> new UserIdNotFoundException(userId));
     }
 }

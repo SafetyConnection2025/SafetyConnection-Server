@@ -2,6 +2,7 @@ package org.example.safetyconnection.service.facade;
 
 import lombok.RequiredArgsConstructor;
 import org.example.safetyconnection.entity.Member;
+import org.example.safetyconnection.exception.UserNameNotFoundException;
 import org.example.safetyconnection.repository.MemberRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByUsername(username)
                 .map(this::createUserDetails)
-                .orElseThrow(() -> new UsernameNotFoundException("해당되는 유저를 찾을 수 없습니다."));
+                .orElseThrow(() -> new UserNameNotFoundException(username));
     }
 
     private UserDetails createUserDetails(Member member) {

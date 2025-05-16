@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.safetyconnection.dto.response.CompanionListResDTO;
 import org.example.safetyconnection.dto.response.CompanionResDTO;
 import org.example.safetyconnection.entity.Companion;
+import org.example.safetyconnection.exception.UserIdNotFoundException;
 import org.example.safetyconnection.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class CompanionQueryService {
 
     public List<CompanionResDTO> findAllCompanionsByUserId(Long userId) {
         List<Companion> companionList = memberRepository.findAllCompanionsByUserId(userId)
-            .orElseThrow(() -> new RuntimeException("해당 유저에 대한 알맞은 동행자를 찾을 수 없습니다."));
+            .orElseThrow(() -> new UserIdNotFoundException(userId));
 
         return companionList.stream()
             .map(Companion::getCompUserId)
