@@ -52,6 +52,14 @@ dependencies {
     implementation platform('com.fasterxml.jackson:jackson-bom:2.19.0')
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names'
+
+    // thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+
+    //qrCode generator
+    implementation group: 'com.google.zxing', name: 'javase', version: '3.5.0'
+    implementation group: 'com.google.zxing', name: 'core', version: '3.5.0'
 }
 
 tasks.named('test') {
