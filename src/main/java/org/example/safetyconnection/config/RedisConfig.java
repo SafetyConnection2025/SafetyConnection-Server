@@ -49,21 +49,9 @@ RedisConfig {
   public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
     RedisTemplate<String, Object> template = new RedisTemplate<>();
     template.setConnectionFactory(connectionFactory);
-
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.activateDefaultTyping(
-        LaissezFaireSubTypeValidator.instance,
-        ObjectMapper.DefaultTyping.NON_FINAL,
-        JsonTypeInfo.As.WRAPPER_ARRAY
-    );
-
-    GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper);
-
     template.setKeySerializer(new StringRedisSerializer());
-    template.setValueSerializer(serializer);
-    template.setHashKeySerializer(new StringRedisSerializer());
-    template.setHashValueSerializer(serializer);
-
+    template.setKeySerializer(new StringRedisSerializer());
+    template.setValueSerializer(new StringRedisSerializer());
     return template;
   }
 
