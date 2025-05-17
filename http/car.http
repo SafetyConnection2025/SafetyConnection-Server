@@ -1,0 +1,30 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+
+###
+POST https://safety2025.duckdns.org/users/register
+Content-Type: application/json
+
+{
+  "username": "name1",
+  "name" : "name1",
+  "password" : "pwd",
+  "email" : "abc@email.com",
+  "phone_number" : "01012345678",
+  "member_type" : "NORMAL"
+}
+
+
+
+###
+POST https://safety2025.duckdns.org/user/car/register
+Content-Type: application/json
+
+{
+    "carId" : "abc1234",
+    "username" : "name1"
+}
+
+
