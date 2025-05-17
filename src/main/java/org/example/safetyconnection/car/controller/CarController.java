@@ -7,7 +7,6 @@ import org.example.safetyconnection.car.service.CarService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user/car")
 public class CarController {
-	private CarService carService;
+	private final CarService carService;
+
+	public CarController(CarService carService) {
+		this.carService = carService;
+	}
 
 	@PostMapping("/register")
 	public ResponseEntity<Void> registerCar(@RequestBody CarRegisterRequestDTO requestDTO) {
