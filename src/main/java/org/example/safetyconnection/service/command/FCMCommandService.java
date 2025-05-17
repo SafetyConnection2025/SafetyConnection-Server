@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.safetyconnection.dto.request.FCMTokenReqDTO;
 import org.example.safetyconnection.dto.response.FCMTokenResDTO;
 import org.example.safetyconnection.entity.Member;
+import org.example.safetyconnection.exception.UserIdNotFoundException;
 import org.example.safetyconnection.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,8 @@ public class FCMCommandService {
 
   @Transactional
   public FCMTokenResDTO setFCMToken(Long userId, FCMTokenReqDTO fcmTokenReqDTO) {
-    Member member = memberRepository.findById(userId).orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
+    Member member = memberRepository.findById(userId).orElseThrow(
+        () -> new UserIdNotFoundException(userId));
 
     member.setFCMToken(fcmTokenReqDTO.fcmToken());
 
@@ -23,6 +25,6 @@ public class FCMCommandService {
 
     return memberRepository.findById(userId)
         .map(FCMTokenResDTO::toDTO)
-        .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
+        .orElseThrow(() -> new UserIdNotFoundException(userId));
   }
 }
