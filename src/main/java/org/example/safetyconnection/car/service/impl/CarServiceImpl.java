@@ -15,12 +15,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @RequestMapping
+@RequiredArgsConstructor
 public class CarServiceImpl implements CarService {
 
-	private CarRepository carRepository;
-	private MemberRepository memberRepository;
+	private final CarRepository carRepository;
+	private final MemberRepository memberRepository;
 
 	@Override
 	public void registerCar(CarRegisterRequestDTO requestDTO) {
