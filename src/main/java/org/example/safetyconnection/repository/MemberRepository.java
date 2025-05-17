@@ -17,6 +17,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
         Optional<Member> findByUsername(String username);  // Ensure 'name' matches the field in Users entity
 
+        boolean existsByUsername(String username);
+
         @Modifying
         @Transactional
         @Query(value = "INSERT INTO companion (USER_ID, COMP_USER_ID) VALUES (:userId, :compUserID)", nativeQuery = true)

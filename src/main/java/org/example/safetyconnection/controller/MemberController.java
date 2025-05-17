@@ -30,7 +30,6 @@ import java.util.List;
 @RequestMapping("/users")
 @Slf4j
 @RequiredArgsConstructor
-@Tag(name = "회원 관련 API", description = "회원 정보, 위치, 동행자 관리")
 public class MemberController {
 
   @Autowired
@@ -42,7 +41,6 @@ public class MemberController {
   @Autowired
   private JwtTokenProvider jwtTokenProvider;
 
-  @Operation(description = "username, password 이용하여 로그인")
   @PostMapping("/login")
     public JwtToken getLoginInfo(@RequestBody LogInDTO logInDTO) {
         JwtToken jwtToken = memberService.logIn(logInDTO);
@@ -52,7 +50,6 @@ public class MemberController {
         return jwtToken;
     }
 
-    @Operation(description = "userId로 유저 조회")
     @GetMapping("/{userId}")
     public ResponseEntity<MemberDTO> getUserById(@PathVariable Long userId) {
         log.info("GET 요청 수신: userId = {}", userId);
@@ -64,7 +61,6 @@ public class MemberController {
         return ResponseEntity.ok(memberDTO);
     }
 
-    @Operation(description = "userId로 유저의 위치정보 조회")
     @GetMapping("/{userId}/location")
     public ResponseEntity<MemberLocationResDTO> getLocationById(@PathVariable Long userId) {
         log.info("L_GET 요청 수신: userId = {}", userId);
@@ -76,7 +72,6 @@ public class MemberController {
         return ResponseEntity.ok(memberLocationResDTO);
     }
 
-    @Operation(description = "해당 user의 동행자 전체 조회")
     @GetMapping("/allcompanions")
     public ResponseEntity<List<CompanionResDTO>> findAllCompanions(HttpServletRequest httpServletRequest) {
         String accessToken = httpServletRequest.getHeader("access");
@@ -90,7 +85,6 @@ public class MemberController {
         return ResponseEntity.ok(companions);
     }
 
-    @Operation(description = "username으로 해당 유저의 id 조회하기")
     @GetMapping("/{username}/namereq")
     public ResponseEntity<Long> getIdByUsername(@PathVariable String username) {
         log.info("ID_req 요청 수신: userName = {}", username);
@@ -100,7 +94,6 @@ public class MemberController {
         return ResponseEntity.ok(userId);
     }
 
-    @Operation(description = "username으로 해당 유저의 위치 정보 조회")
     @GetMapping("/{username}/compaloc")
     public ResponseEntity<MemberLocationResDTO> getLocationByName(@PathVariable String username) {
         log.info("CL_GET 요청 수신: userName = {}", username);
@@ -112,7 +105,6 @@ public class MemberController {
         return ResponseEntity.ok(memberLocationResDTO);
     }
 
-    @Operation(description = "해당 유저 삭제")
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> deleteById(@PathVariable Long userId) {
         log.info("DELETE 요청 수신: userId = {}", userId);
@@ -124,7 +116,6 @@ public class MemberController {
         return ResponseEntity.ok("삭제 완료");
     }
 
-    @Operation(description = "현재 로그인한 유저에 compId로 해당 동행자 추가하기")
     @PutMapping("/addcomp/{compId}")
     public ResponseEntity<CompanionResDTO> addCompanion(HttpServletRequest httpServletRequest, @PathVariable Long compId) {
         String accessToken = httpServletRequest.getHeader("access");
@@ -137,7 +128,6 @@ public class MemberController {
         return ResponseEntity.ok(companionResDTO);
     }
 
-    @Operation(description = "현재 로그인한 유저의 위치 정보 갱신하기")
     @PutMapping("/updateLocation")
     public ResponseEntity<MemberLocationResDTO> addLocation(HttpServletRequest httpServletRequest, @RequestBody MemberLocationReqDTO memberLocationReqDTO) {
         String accessToken = httpServletRequest.getHeader("access");
@@ -151,7 +141,6 @@ public class MemberController {
         return ResponseEntity.ok(memberLocationResDTO);
     }
 
-    @Operation(description = "회원가입")
     @PostMapping("/register")
     public ResponseEntity<String> registerMember(@RequestBody MemberDTO memberDTO) {
         Member member = memberService.registerUser(memberDTO);
@@ -160,7 +149,6 @@ public class MemberController {
     }
 
    
-    @Operation(description = "해당 compId의 동행자에게 알림 보내기")
     @GetMapping("/{compId}/sendNotification")
     public ResponseEntity<FCMTokenResDTO> sendNotification(@PathVariable Long compId) {
         log.info("id: {} 사용자의 토큰 조회", compId);
@@ -172,7 +160,6 @@ public class MemberController {
         return ResponseEntity.ok(fcmTokenResDTO);
     }
 
-    @Operation(description = "해당 유저 토근 업데이트")
     @PutMapping("/{userId}/updateToken")
     public ResponseEntity<FCMTokenResDTO> updateToken(@PathVariable("userId") Long userId, @RequestBody FCMTokenReqDTO fcmTokenReqDTO) {
         log.info("UPDATE_TOKEN 요청 수신: userId = {}", userId);
@@ -184,7 +171,6 @@ public class MemberController {
         return ResponseEntity.ok(fcmTokenResDTO);
     }
 
-    @Operation(description = "해당 compId 동행자 삭제하기")
     @DeleteMapping("/delcomp/{compId}")
     public ResponseEntity<String> deleteCompanion(HttpServletRequest httpServletRequest, @PathVariable Long compId) {
         String accessToken = httpServletRequest.getHeader("access");
