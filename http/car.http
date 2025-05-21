@@ -3,8 +3,8 @@ POST https://safety2025.duckdns.org/users/register
 Content-Type: application/json
 
 {
-  "username": "name1",
-  "name" : "name1",
+  "username": "name2",
+  "name" : "name2",
   "password" : "pwd",
   "email" : "abc@email.com",
   "phone_number" : "01012345678",
@@ -18,7 +18,7 @@ POST https://safety2025.duckdns.org/user/car/register
 Content-Type: application/json
 
 {
-    "carId" : "abc1234",
+    "carId" : "new",
     "username" : "name1"
 }
 

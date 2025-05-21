@@ -32,6 +32,7 @@ public class CarController {
 	@GetMapping("/{userId}")
 	public ResponseEntity<CarResponseDTO> getCarId(@PathVariable("userId") String userId) {
 		CarRequestDTO requestDTO = new CarRequestDTO(userId);
+
 		CarResponseDTO carResponseDTO = carService.getCarByUsername(requestDTO);
 		return ResponseEntity.status(HttpStatus.OK).body(carResponseDTO);
 	}

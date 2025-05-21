@@ -2,6 +2,7 @@ package org.example.safetyconnection.car.entity;
 
 import org.example.safetyconnection.entity.Member;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Car {
 	@Id
+	@Column(name = "car_id")
 	private String carId;
 
 	@OneToOne

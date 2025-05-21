@@ -26,9 +26,10 @@ public class CarServiceImpl implements CarService {
 
 	@Override
 	public void registerCar(CarRegisterRequestDTO requestDTO) {
-		if (!carRepository.existsByCarId(requestDTO.carId())) {
-			throw new CarIdAlreadyExistsException(requestDTO.carId());
-		}
+		System.out.println(requestDTO.carId());
+		// if (carRepository.existsByCarId(requestDTO.carId())) {
+		// 	throw new CarIdAlreadyExistsException(requestDTO.carId());
+		// }
 
 		Member member = memberRepository.findByUsername(requestDTO.username())
 			.orElseThrow(() -> new UsernameNotFoundException(requestDTO.username()));
