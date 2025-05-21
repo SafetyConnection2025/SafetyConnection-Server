@@ -48,7 +48,7 @@ jobs:
       run: ./gradlew clean build
 
     - name: Rename jar file
-      run: mv ./build/libs/*SNAPSHOT.jr ./build.jar
+      run: mv ./build/libs/*SNAPSHOT.jar ./build.jar
 
     - name: EC2로 전송
       uses: appleboy/scp-action@master
