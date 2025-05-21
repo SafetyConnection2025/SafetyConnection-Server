@@ -51,6 +51,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String resolveToken(HttpServletRequest request) {
-        return request.getHeader("access");
+        return request.getHeader("Authorization");
     }
 }
