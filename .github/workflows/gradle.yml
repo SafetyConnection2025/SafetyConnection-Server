@@ -45,8 +45,34 @@ jobs:
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
     - name: Build with Gradle Wrapper
-      run: ./gradlew build
+      run: ./gradlew clean build
 
+    - name: Rename jar file
+      run: mv ./build/libs/*SNAPSHOT.jar ./build.jar
+
+    - name: EC2로 전송
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        source: build.jar
+        target: /home/ubuntu/safety2025/build/libs
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: SSH로 EC2 접속
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script_stop: true
+        script: |
+          cd safety2025 && sudo docker-compose down && sudo docker build -t backend-image . && sudo docker-compose up -d
 #    - name: Make Directory
 #      run: mkdir -p deploy
 

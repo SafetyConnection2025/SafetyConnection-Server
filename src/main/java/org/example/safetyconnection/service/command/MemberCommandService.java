@@ -2,15 +2,15 @@ package org.example.safetyconnection.service.command;
 
 import lombok.RequiredArgsConstructor;
 import org.example.safetyconnection.dto.LogInDTO;
-import org.example.safetyconnection.dto.MemberDTO;
+import org.example.safetyconnection.dto.request.MemberReqDTO;
 import org.example.safetyconnection.dto.request.FCMTokenReqDTO;
 import org.example.safetyconnection.dto.request.MemberLocationReqDTO;
 import org.example.safetyconnection.dto.response.FCMTokenResDTO;
 import org.example.safetyconnection.dto.response.MemberLocationResDTO;
+import org.example.safetyconnection.dto.response.MemberResDTO;
 import org.example.safetyconnection.entity.Member;
 import org.example.safetyconnection.entity.enums.MemberType;
 import org.example.safetyconnection.exception.LocationSaveFailedException;
-import org.example.safetyconnection.exception.UserAlreadyExistsException;
 import org.example.safetyconnection.exception.UserIdNotFoundException;
 import org.example.safetyconnection.exception.UserNameAlreadyExistsException;
 import org.example.safetyconnection.exception.UserNameNotFoundException;
@@ -20,7 +20,6 @@ import org.example.safetyconnection.repository.MemberRepository;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -55,19 +54,28 @@ public class MemberCommandService {
     }
 
     @Transactional
-    public Member registerUser(MemberDTO memberDTO) {
-        String username = memberDTO.username();
-        String name = memberDTO.name();
-        String password = memberDTO.password();
-        String email = memberDTO.email();
-        String phoneNumber = memberDTO.phoneNumber();
-        MemberType memberType = memberDTO.memberType();
+    public MemberResDTO registerUser(MemberReqDTO memberReqDTO) {
+        String username = memberReqDTO.username();
+        String name = memberReqDTO.name();
+        String password = memberReqDTO.password();
+        String email = memberReqDTO.email();
+        String phoneNumber = memberReqDTO.phoneNumber();
+        MemberType memberType = memberReqDTO.memberType();
 
         if (memberRepository.existsByUsername(username)) {
             throw new UserNameAlreadyExistsException(username);
         }
 
-        return memberRepository.save(new Member(username, name, passwordEncoder.encode(password), email, phoneNumber, memberType));
+        return MemberResDTO.toDTO(
+            memberRepository.save(new Member
+                (username,
+                    name,
+                    passwordEncoder.encode(password),
+                    email, phoneNumber,
+                    memberType
+                )
+            )
+        );
     }
 
     @Transactional

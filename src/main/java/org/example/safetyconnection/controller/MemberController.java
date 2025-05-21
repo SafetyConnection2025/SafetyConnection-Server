@@ -1,17 +1,16 @@
 package org.example.safetyconnection.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.safetyconnection.dto.request.FCMTokenReqDTO;
 import org.example.safetyconnection.dto.response.CompanionResDTO;
 import org.example.safetyconnection.dto.LogInDTO;
-import org.example.safetyconnection.dto.MemberDTO;
+import org.example.safetyconnection.dto.request.MemberReqDTO;
 import org.example.safetyconnection.dto.request.MemberLocationReqDTO;
 import org.example.safetyconnection.dto.response.FCMTokenResDTO;
 import org.example.safetyconnection.dto.response.MemberLocationResDTO;
+import org.example.safetyconnection.dto.response.MemberResDTO;
 import org.example.safetyconnection.entity.Member;
 import org.example.safetyconnection.jwt.JwtToken;
 import org.example.safetyconnection.jwt.JwtTokenProvider;
@@ -51,14 +50,14 @@ public class MemberController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<MemberDTO> getUserById(@PathVariable Long userId) {
+    public ResponseEntity<MemberResDTO> getUserById(@PathVariable Long userId) {
         log.info("GET 요청 수신: userId = {}", userId);
 
-        MemberDTO memberDTO = memberService.findUserById(userId);
+        MemberResDTO memberResDTO = memberService.findUserById(userId);
 
-        log.info("username: {} 유저를 불러옵니다.", memberDTO.username());
+        log.info("username: {} 유저를 불러옵니다.", memberResDTO.username());
 
-        return ResponseEntity.ok(memberDTO);
+        return ResponseEntity.ok(memberResDTO);
     }
 
     @GetMapping("/{userId}/location")
@@ -142,10 +141,10 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerMember(@RequestBody MemberDTO memberDTO) {
-        Member member = memberService.registerUser(memberDTO);
+    public ResponseEntity<String> registerMember(@RequestBody MemberReqDTO memberReqDTO) {
+        MemberResDTO memberResDTO = memberService.registerUser(memberReqDTO);
 
-        return ResponseEntity.ok(member.getName() + ", 회원가입이 완료되었습니다.");
+        return ResponseEntity.ok(memberResDTO.name() + ", 회원가입이 완료되었습니다.");
     }
 
    
