@@ -49,6 +49,7 @@ public class JwtTokenProvider {
         String accessToken = Jwts.builder()
                 .subject(authentication.getName())
                 .claim("userId", userId)
+                .claim("username", username)
                 .claim(AUTHORIZATION_KEY, authorities)
                 .expiration(accessTokenExpirationTime)
                 .signWith(key)
@@ -58,6 +59,7 @@ public class JwtTokenProvider {
         Date refreshTokenExpirationTime = new Date(now + 1000 * 60 * 30);  // refresh token 유효 시간, 30분
         String refreshToken = Jwts.builder()
                 .claim("userId", userId)
+                .claim("username", username)
                 .expiration(refreshTokenExpirationTime)
                 .signWith(key)
                 .compact();
@@ -110,11 +112,6 @@ public class JwtTokenProvider {
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
-    }
-
-    public String getUsernameFromToken(String token) {
-        Claims claims = parseClaims(token);
-        return claims.get("username", String.class);
     }
 
     public Long getUserIdFromToken(String token) {
