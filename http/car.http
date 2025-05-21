@@ -3,8 +3,8 @@ POST https://safety2025.duckdns.org/users/register
 Content-Type: application/json
 
 {
-  "username": "name2",
-  "name" : "name2",
+  "username": "name3",
+  "name" : "name3",
   "password" : "pwd",
   "email" : "abc@email.com",
   "phone_number" : "01012345678",
@@ -18,8 +18,8 @@ POST https://safety2025.duckdns.org/user/car/register
 Content-Type: application/json
 
 {
-    "carId" : "new",
-    "username" : "name1"
+    "carId" : "jongganacar1",
+    "username" : "jonggang"
 }
 
 
@@ -37,9 +37,9 @@ GET http://localhost:8080/api/dev/issue-token?username=test
 
 ### username=test가
 POST http://localhost:8080/api/qr/scan
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0IiwidXNlcklkIjozLCJ1c2VybmFtZSI6InRlc3QiLCJhdXRoIjoiTk9STUFMIiwiZXhwIjoxNzQ3ODM3MDMyfQ.wH8rnOS2R2HFh0zqO417NiBJmOeKYEQGdIcoCYu2mn6vgHqcRNWq7sbMpAe98P0m
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0IiwidXNlcklkIjozLCJ1c2VybmFtZSI6InRlc3QiLCJhdXRoIjoiTk9STUFMIiwiZXhwIjoxNzQ3ODM5MDY3fQ.JqrERa6RTK9nMoY8VYGVhnwXERvEsGSuNt-roH7dR0E-MbNdnlUFThdgUY_WOBZY
 Content-Type: application/json
 
 {
-  "scannedUsername": "종강"
+  "scannedUsername": "jonggang"
 }
