@@ -31,3 +31,15 @@ Content-Type: application/json
 
 ###
 GET https://safety2025.duckdns.org/qr/generate/name1
+
+###
+GET http://localhost:8080/api/dev/issue-token?username=test
+
+### username=test가
+POST http://localhost:8080/api/qr/scan
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0IiwidXNlcklkIjozLCJ1c2VybmFtZSI6InRlc3QiLCJhdXRoIjoiTk9STUFMIiwiZXhwIjoxNzQ3ODM3MDMyfQ.wH8rnOS2R2HFh0zqO417NiBJmOeKYEQGdIcoCYu2mn6vgHqcRNWq7sbMpAe98P0m
+Content-Type: application/json
+
+{
+  "scannedUsername": "종강"
+}
