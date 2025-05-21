@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequestMapping
 @RequiredArgsConstructor
 public class CarServiceImpl implements CarService {
 
