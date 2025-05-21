@@ -3,17 +3,15 @@ package org.example.safetyconnection.service.facade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.safetyconnection.dto.LogInDTO;
-import org.example.safetyconnection.dto.MemberDTO;
-import org.example.safetyconnection.dto.request.FCMTokenReqDTO;
+import org.example.safetyconnection.dto.request.MemberReqDTO;
 import org.example.safetyconnection.dto.request.MemberLocationReqDTO;
-import org.example.safetyconnection.dto.response.FCMTokenResDTO;
 import org.example.safetyconnection.dto.response.MemberLocationResDTO;
+import org.example.safetyconnection.dto.response.MemberResDTO;
 import org.example.safetyconnection.entity.Member;
 import org.example.safetyconnection.jwt.JwtToken;
 import org.example.safetyconnection.service.command.MemberCommandService;
 import org.example.safetyconnection.service.query.MemberQueryService;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
@@ -29,8 +27,8 @@ public class MemberService {
         return memberCommandService.logIn(logInDTO);
     }
 
-    public Member registerUser(MemberDTO memberDTO) {
-        return memberCommandService.registerUser(memberDTO);
+    public MemberResDTO registerUser(MemberReqDTO memberReqDTO) {
+        return memberCommandService.registerUser(memberReqDTO);
     }
 
     @CacheEvict(value = {"memberLocation", "memberById"}, key = "#userId")
@@ -39,7 +37,7 @@ public class MemberService {
     }
 
     @Cacheable(value = "memberById", key = "#userId", unless = "#result == null")
-    public MemberDTO findUserById(Long userId) {
+    public MemberResDTO findUserById(Long userId) {
         return memberQueryService.findUserById(userId);
     }
 
