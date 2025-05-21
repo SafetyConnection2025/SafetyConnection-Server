@@ -23,3 +23,9 @@ Content-Type: application/json
 }
 
 
+###
+GET https://safety2025.duckdns.org/user/car/abc1234
+Content-Type: application/json
+
+
+

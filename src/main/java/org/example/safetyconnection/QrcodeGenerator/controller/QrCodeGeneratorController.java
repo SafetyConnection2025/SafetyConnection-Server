@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/qr/generate")
 public class QrCodeGeneratorController {
 	@GetMapping()
-	public String generateOr() {
+	public String generateQr() {
 		return "qrcode-generator";
 	}
+
+
 }
