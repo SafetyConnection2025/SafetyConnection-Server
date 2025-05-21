@@ -1,5 +1,6 @@
 package org.example.safetyconnection.advice;
 
+import org.example.safetyconnection.car.exception.CarIdAlreadyExistsException;
 import org.example.safetyconnection.exception.CompanionNotFoundException;
 import org.example.safetyconnection.exception.LocationSaveFailedException;
 import org.example.safetyconnection.exception.UserNameNotFoundException;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.example.safetyconnection.dto.response.ErrorResDTO;
 import org.example.safetyconnection.exception.UserIdNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -17,6 +19,12 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResDTO> handleUserNotFoundException(Exception e) {
 		ErrorResDTO errorResDTO = new ErrorResDTO(HttpStatus.NOT_FOUND, e.getMessage());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResDTO);
+	}
+
+	@ExceptionHandler(CarIdAlreadyExistsException.class)
+	public ResponseEntity<ErrorResDTO> AlreadyExists(CarIdAlreadyExistsException ex) {
+		ErrorResDTO errorResDTO = new ErrorResDTO(HttpStatus.CONFLICT, ex.getMessage());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResDTO);
 	}
 
 	@ExceptionHandler(LocationSaveFailedException.class)

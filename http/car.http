@@ -24,8 +24,10 @@ Content-Type: application/json
 
 
 ###
-GET https://safety2025.duckdns.org/user/car/abc1234
+GET https://safety2025.duckdns.org/user/car/name1
 Content-Type: application/json
 
 
 
+###
+GET https://safety2025.duckdns.org/qr/generate/name1
