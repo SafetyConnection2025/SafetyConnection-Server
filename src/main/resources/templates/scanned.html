@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이동 요청</title>
+    <style>
+        body {
+            font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 22px;
+            text-align: center;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        p {
+            font-size: 14px;
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .button {
+            background-color: #6366F1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+            text-align: center;
+            max-width: 320px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <h1>해당 차주에게 이동 요청을 보낼까요?</h1>
+        <p>개인정보는 안전하게 보관할게요!</p>
+        <button class="button" id="sendRequestBtn">이동 요청 보내기</button>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    var uid = [[${uid}]];
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const sendRequestBtn = document.getElementById('sendRequestBtn');
+
+        sendRequestBtn.addEventListener('click', function() {
+            if (!uid) {
+                alert('QR 코드 정보를 읽을 수 없습니다.');
+                return;
+            }
+
+            fetch('/api/qr/scan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    uid: uid
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // 성공 시 /success 페이지로 이동
+                        window.location.href = '/success';
+                    } else {
+                        alert('이동 요청 전송에 실패했습니다. 다시 시도해주세요.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('네트워크 오류가 발생했습니다.');
+                });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
 package org.example.safetyconnection.dto.request;
 
-public record QrScanRequestDTO(String scannedUsername){
+public record QrScanRequestDTO(String uid){
 }

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이동 요청 완료</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            width: 95vw;
+            max-width: 400px;
+            height: 90vh;
+            min-height: 560px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: stretch;
+            position: relative;
+            padding: 0;
+        }
+        .center-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .checkmark {
+            margin-bottom: 32px;
+        }
+        .title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #222;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .desc {
+            font-size: 14px;
+            color: #888;
+            text-align: center;
+            margin-bottom: 0;
+        }
+        .button-area {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding-bottom: 32px;
+            padding-top: 16px;
+        }
+        .install-btn {
+            width: 90%;
+            max-width: 340px;
+            background: #6366F1;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 16px 0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .install-btn:hover {
+            background: #4f51c0;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="center-content">
+        <!-- 체크마크 SVG -->
+        <div class="checkmark">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="32" fill="#fff"/>
+                <circle cx="32" cy="32" r="30" stroke="#22C55E" stroke-width="4" fill="none"/>
+                <path d="M20 34L29 43L44 25" stroke="#22C55E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="title">해당 차주에게 이동 요청을 보냈어요!</div>
+        <div class="desc">차주의 차량 이동 후 알림을 보내드릴게요!</div>
+    </div>
+    <div class="button-area">
+        <button class="install-btn" onclick="window.location.href='https://cnu365-my.sharepoint.com/:u:/g/personal/villop020403_o_cnu_ac_kr/EWeFbtEw-sNJgoFbuWZ6KBYBimU9A2_lPR7AiVRD5fZjkw?e=pDapyh'">
+            앱 설치하러 가기
+        </button>
+    </div>
+</div>
+</body>
+</html>

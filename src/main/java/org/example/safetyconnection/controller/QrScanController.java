@@ -3,6 +3,10 @@ package org.example.safetyconnection.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.example.safetyconnection.QrcodeGenerator.Repository.QrGeneratorRepository;
+import org.example.safetyconnection.QrcodeGenerator.domain.QrGenerator;
+import org.example.safetyconnection.QrcodeGenerator.dto.request.QrGenerateRequestDTO;
+import org.springframework.ui.Model;
 import org.example.safetyconnection.dto.request.QrScanRequestDTO;
 import org.example.safetyconnection.dto.request.FCMNotificationRequestDTO;
 import org.example.safetyconnection.entity.Member;
@@ -10,24 +14,37 @@ import org.example.safetyconnection.repository.MemberRepository;
 import org.example.safetyconnection.service.facade.FCMService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.google.firebase.messaging.AndroidConfig;
 
-@RestController
-@RequestMapping("/api/qr")
+@Controller
 @RequiredArgsConstructor
 @Slf4j
 public class QrScanController {
 
 	private final MemberRepository memberRepository;
+	private final QrGeneratorRepository qrGeneratorRepository;
 	private final FCMService fcmService;
 
-	@PostMapping("/scan")
-	public ResponseEntity<Void> handleQrScan(
-			@RequestBody QrScanRequestDTO request
-	) {
-		String scannedUsername = request.scannedUsername();
+	@GetMapping("/scanned")
+	public String scannedQr(QrScanRequestDTO qrScanRequestDTO, Model model) {
+		model.addAttribute("uid", qrScanRequestDTO.uid());
+		return "scanned";
+	}
+
+	@GetMapping("/success")
+	public String successQr() {
+		return "success";
+	}
+
+	@PostMapping("/api/qr/scan")
+	public ResponseEntity<Object> handleQrScan(QrScanRequestDTO qrScanRequestDTO) {
+		QrGenerator qrGenerator = qrGeneratorRepository.findByUid(qrScanRequestDTO.uid())
+				.orElseThrow(() -> new RuntimeException("잘못된 QR코드입니다."));
+
+		String scannedUsername = qrGenerator.getUsername();
 
 		Member owner = memberRepository.findByUsername(scannedUsername)
 			.orElseThrow(() -> new UsernameNotFoundException(scannedUsername));
