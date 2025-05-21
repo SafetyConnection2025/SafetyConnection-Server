@@ -40,7 +40,7 @@ public class QrScanController {
 	}
 
 	@PostMapping("/api/qr/scan")
-	public ResponseEntity<Object> handleQrScan(QrScanRequestDTO qrScanRequestDTO) {
+	public ResponseEntity<Object> handleQrScan(@RequestBody QrScanRequestDTO qrScanRequestDTO) {
 		QrGenerator qrGenerator = qrGeneratorRepository.findByUid(qrScanRequestDTO.uid())
 				.orElseThrow(() -> new RuntimeException("잘못된 QR코드입니다."));
 

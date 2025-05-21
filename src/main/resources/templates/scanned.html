@@ -68,7 +68,8 @@
 </div>
 
 <script th:inline="javascript">
-    var uid = [[${uid}]];
+    var uid;
+    uid = [[${uid}]];
 
     document.addEventListener('DOMContentLoaded', function() {
         const sendRequestBtn = document.getElementById('sendRequestBtn');
