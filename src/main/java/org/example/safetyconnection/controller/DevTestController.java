@@ -1,4 +1,4 @@
-package org.example.safetyconnection.QRScan.controller;
+package org.example.safetyconnection.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.safetyconnection.entity.Member;

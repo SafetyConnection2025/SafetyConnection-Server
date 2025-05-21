@@ -11,7 +11,6 @@ import org.example.safetyconnection.dto.request.MemberLocationReqDTO;
 import org.example.safetyconnection.dto.response.FCMTokenResDTO;
 import org.example.safetyconnection.dto.response.MemberLocationResDTO;
 import org.example.safetyconnection.dto.response.MemberResDTO;
-import org.example.safetyconnection.entity.Member;
 import org.example.safetyconnection.jwt.JwtToken;
 import org.example.safetyconnection.jwt.JwtTokenProvider;
 import org.example.safetyconnection.service.facade.CompanionService;
