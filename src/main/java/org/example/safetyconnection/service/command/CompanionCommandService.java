@@ -21,9 +21,9 @@ public class CompanionCommandService {
     private final CompanionRepository companionRepository;
 
     public CompanionResDTO addCompanion(Long userId, Long compId) {
-        if (companionRepository.existsById(compId)) {
+       /* if (companionRepository.existsById(compId)) {
             throw new UserAlreadyExistsException(compId);
-        };
+        };*/
 
         companionRepository.save(new Companion(userId, compId, 0));
 
