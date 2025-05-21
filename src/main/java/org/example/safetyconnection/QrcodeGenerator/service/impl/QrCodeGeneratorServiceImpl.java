@@ -21,15 +21,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class QrCodeGeneratorServiceImpl implements QrCodeGeneratorService {
-	private final CarRepository carRepository;
 
 	@Override
 	public byte[] createQrCode(QrGenerateReqeustDTO qrGenerateReqeustDTO) {
-		Car car = carRepository.findByMember_Username(qrGenerateReqeustDTO.username())
-			.orElseThrow(() -> new UsernameNotFoundException(qrGenerateReqeustDTO.username()));
 
 		QRCodeWriter qrCodeWriter = new QRCodeWriter();
-		String text = car.getCarId();
+		String text = qrGenerateReqeustDTO.username();
 		int width = 200;
 		int height = 200;
 		BitMatrix bitMatrix = null;
