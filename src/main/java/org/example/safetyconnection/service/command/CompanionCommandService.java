@@ -23,10 +23,6 @@ public class CompanionCommandService {
 
     @Transactional
     public CompanionResDTO addCompanion(Long userId, Long compId) {
-       /* if (companionRepository.existsById(compId)) {
-            throw new UserAlreadyExistsException(compId);
-        };*/
-
         companionRepository.save(new Companion(userId, compId, 0));
 
         return memberRepository.findById(compId)
