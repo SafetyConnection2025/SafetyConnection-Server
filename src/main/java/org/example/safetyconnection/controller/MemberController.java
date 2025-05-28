@@ -11,7 +11,6 @@ import org.example.safetyconnection.dto.request.MemberLocationReqDTO;
 import org.example.safetyconnection.dto.response.FCMTokenResDTO;
 import org.example.safetyconnection.dto.response.MemberLocationResDTO;
 import org.example.safetyconnection.dto.response.MemberResDTO;
-import org.example.safetyconnection.entity.Member;
 import org.example.safetyconnection.jwt.JwtToken;
 import org.example.safetyconnection.jwt.JwtTokenProvider;
 import org.example.safetyconnection.service.facade.CompanionService;
@@ -181,4 +180,14 @@ public class MemberController {
         return ResponseEntity.ok("삭제 완료");
     }
 
+    @GetMapping("/{uid}/getToken")
+  public ResponseEntity<FCMTokenResDTO> getFCMToken(@PathVariable String uid) {
+    log.info("uid: {} 사용자의 토큰 조회", uid);
+
+    FCMTokenResDTO fcmTokenResDTO = fcmService.getFCMTokenByUid(uid);
+
+    log.info("사용자 토큰 조회 완료: token = {}", fcmTokenResDTO.fcmToken());
+
+    return ResponseEntity.ok(fcmTokenResDTO);
+  }
 }
