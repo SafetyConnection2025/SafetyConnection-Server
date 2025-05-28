@@ -1,5 +1,9 @@
 package org.example.safetyconnection.QrcodeGenerator.controller;
 
+import java.util.Base64;
+
+import javax.swing.*;
+
 import org.example.safetyconnection.QrcodeGenerator.dto.request.QrGenerateRequestDTO;
 import org.example.safetyconnection.QrcodeGenerator.service.QrCodeGeneratorService;
 import org.springframework.http.MediaType;
@@ -20,11 +24,12 @@ public class QrCodeGeneratorController {
 	}
 
 	@GetMapping(value = "/generate/{username}", produces = MediaType.IMAGE_PNG_VALUE)
-	public ResponseEntity<byte[]> generateQr(@PathVariable String username) {
+	public ResponseEntity<String> generateQr(@PathVariable String username) {
 		QrGenerateRequestDTO qrGenerateRequestDTO = new QrGenerateRequestDTO(username);
 		byte[] qrImage = qrCodeGeneratorService.createQrCode(qrGenerateRequestDTO);
+		String base64Encoded = Base64.getEncoder().encodeToString(qrImage);
 
-		return ResponseEntity.ok(qrImage);
+		return ResponseEntity.ok(base64Encoded);
 	}
 
 
