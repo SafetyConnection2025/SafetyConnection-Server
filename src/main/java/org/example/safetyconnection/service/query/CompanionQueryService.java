@@ -8,6 +8,7 @@ import org.example.safetyconnection.entity.Companion;
 import org.example.safetyconnection.exception.UserIdNotFoundException;
 import org.example.safetyconnection.repository.MemberRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class CompanionQueryService {
     private final MemberRepository memberRepository;
 
+    @Transactional(readOnly = true)
     public List<CompanionResDTO> findAllCompanionsByUserId(Long userId) {
         List<Companion> companionList = memberRepository.findAllCompanionsByUserId(userId)
             .orElseThrow(() -> new UserIdNotFoundException(userId));

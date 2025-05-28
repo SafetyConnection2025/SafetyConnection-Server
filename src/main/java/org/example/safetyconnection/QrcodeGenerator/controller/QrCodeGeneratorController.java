@@ -31,6 +31,4 @@ public class QrCodeGeneratorController {
 
 		return ResponseEntity.ok(base64Encoded);
 	}
-
-
 }

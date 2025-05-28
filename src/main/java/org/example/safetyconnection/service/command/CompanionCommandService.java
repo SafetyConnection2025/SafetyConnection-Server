@@ -11,6 +11,7 @@ import org.example.safetyconnection.exception.UserIdNotFoundException;
 import org.example.safetyconnection.repository.CompanionRepository;
 import org.example.safetyconnection.repository.MemberRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -20,6 +21,7 @@ public class CompanionCommandService {
     private final MemberRepository memberRepository;
     private final CompanionRepository companionRepository;
 
+    @Transactional
     public CompanionResDTO addCompanion(Long userId, Long compId) {
         companionRepository.save(new Companion(userId, compId, 0));
 
@@ -28,6 +30,7 @@ public class CompanionCommandService {
             .orElseThrow(() -> new CompanionNotFoundException(compId));
     }
 
+    @Transactional
     public void deleteCompanion(Long userId, Long compId) {
         memberRepository.deleteCompanionByUserIdAndCompanionId(userId, compId);
     }

@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.google.firebase.messaging.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,5 +65,9 @@ public class FCMService {
   @CachePut(value = "memberToken", key = "#userId")
   public FCMTokenResDTO setFCMToken(Long userId, FCMTokenReqDTO fcmTokenReqDTO) {
     return fcmCommandService.setFCMToken(userId, fcmTokenReqDTO);
+  }
+
+  public FCMTokenResDTO getFCMTokenByUid(String uid) {
+    return fcmQueryService.getFCMTokenByUid(uid);
   }
 }

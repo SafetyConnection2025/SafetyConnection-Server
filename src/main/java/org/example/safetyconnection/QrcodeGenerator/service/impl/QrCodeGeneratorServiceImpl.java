@@ -7,6 +7,8 @@ import org.example.safetyconnection.QrcodeGenerator.Repository.QrGeneratorReposi
 import org.example.safetyconnection.QrcodeGenerator.domain.QrGenerator;
 import org.example.safetyconnection.QrcodeGenerator.dto.request.QrGenerateRequestDTO;
 import org.example.safetyconnection.QrcodeGenerator.service.QrCodeGeneratorService;
+import org.example.safetyconnection.exception.CompanionNotFoundException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.google.zxing.BarcodeFormat;
@@ -16,12 +18,14 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class QrCodeGeneratorServiceImpl implements QrCodeGeneratorService {
 	private final QrGeneratorRepository qrGeneratorRepository;
 
+	@Transactional
 	@Override
 	public byte[] createQrCode(QrGenerateRequestDTO qrGenerateRequestDTO) {
 

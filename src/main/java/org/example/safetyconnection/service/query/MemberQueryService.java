@@ -14,23 +14,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
-@Transactional
 @RequiredArgsConstructor
 public class MemberQueryService {
     private final MemberRepository memberRepository;
 
+    @Transactional(readOnly = true)
     public MemberResDTO findUserById(Long userId) {
         return memberRepository.findById(userId)
                 .map(MemberResDTO::toDTO)
                 .orElseThrow(() -> new UserIdNotFoundException(userId));
     }
 
+    @Transactional(readOnly = true)
     public MemberLocationResDTO getLocationById(Long userId) {
         return memberRepository.findById(userId)
                 .map(MemberLocationResDTO::toDTO)
                 .orElseThrow(() -> new UserIdNotFoundException(userId));
     }
 
+    @Transactional(readOnly = true)
     public long findIdByUsername(String username) {
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNameNotFoundException(username));

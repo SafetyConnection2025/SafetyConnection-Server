@@ -180,4 +180,14 @@ public class MemberController {
         return ResponseEntity.ok("삭제 완료");
     }
 
+    @GetMapping("/{uid}/getToken")
+  public ResponseEntity<FCMTokenResDTO> getFCMToken(@PathVariable String uid) {
+    log.info("uid: {} 사용자의 토큰 조회", uid);
+
+    FCMTokenResDTO fcmTokenResDTO = fcmService.getFCMTokenByUid(uid);
+
+    log.info("사용자 토큰 조회 완료: token = {}", fcmTokenResDTO.fcmToken());
+
+    return ResponseEntity.ok(fcmTokenResDTO);
+  }
 }
