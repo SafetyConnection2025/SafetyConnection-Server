@@ -1,5 +1,6 @@
 package org.example.safetyconnection.controller;
 
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ public class NotificationController {
   private final JwtTokenProvider jwtTokenProvider;
 
   @PostMapping("/send-noti")
-  public ResponseEntity<String> sendCarMoveRequest(HttpServletRequest httpServletRequest,
+  public ResponseEntity<String> sendRequest(HttpServletRequest httpServletRequest,
                                                    @RequestBody FCMNotificationRequestDTO fcmNotificationRequestDTO) {
     String accessToken = httpServletRequest.getHeader("access");
     Long userId = jwtTokenProvider.getUserIdFromToken(accessToken);
@@ -30,5 +31,15 @@ public class NotificationController {
     log.info("메세지 전송 성공");
 
     return ResponseEntity.ok(notiResult);
+  }
+
+  @PostMapping("/send-move-noti")
+  public ResponseEntity<String> sendCarMoveRequest(HttpServletRequest httpServletRequest,
+                                                   @RequestBody FCMNotificationRequestDTO fcmNotificationRequestDTO) {
+    String accessToken = httpServletRequest.getHeader("access");
+    Long userId = jwtTokenProvider.getUserIdFromToken(accessToken);
+
+    String username =
+    String notiResult = fcmService.sendNotification(fcmNotificationRequestDTO);
   }
 }
