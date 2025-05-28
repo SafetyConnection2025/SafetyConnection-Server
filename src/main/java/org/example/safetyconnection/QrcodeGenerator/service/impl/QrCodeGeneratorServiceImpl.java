@@ -58,10 +58,4 @@ public class QrCodeGeneratorServiceImpl implements QrCodeGeneratorService {
 		}
 		return pngOutputStream.toByteArray();
 	}
-
-	@Transactional(readOnly = true)
-	public String findUsernameByUid(String uid) {
-		QrGenerator user = qrGeneratorRepository.findByUid(uid).orElseThrow(() -> new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다."));
-		return user.getUsername();
-	}
 }

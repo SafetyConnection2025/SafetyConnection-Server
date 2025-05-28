@@ -57,7 +57,6 @@ public class FCMService {
     }
   }
 
-  @Transactional(readOnly = true)
   @Cacheable(value = "memberToken", key = "#userId", unless = "#result == null")
   public FCMTokenResDTO getFCMTokenById(Long userId) {
     return fcmQueryService.getTokenById(userId);
@@ -66,5 +65,9 @@ public class FCMService {
   @CachePut(value = "memberToken", key = "#userId")
   public FCMTokenResDTO setFCMToken(Long userId, FCMTokenReqDTO fcmTokenReqDTO) {
     return fcmCommandService.setFCMToken(userId, fcmTokenReqDTO);
+  }
+
+  public FCMTokenResDTO getFCMTokenByUid(String uid) {
+    return fcmQueryService.getFCMTokenByUid(uid);
   }
 }

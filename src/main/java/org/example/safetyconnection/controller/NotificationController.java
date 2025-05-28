@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.safetyconnection.QrcodeGenerator.service.QrCodeGeneratorService;
 import org.example.safetyconnection.dto.request.FCMNotificationRequestDTO;
 import org.example.safetyconnection.jwt.JwtTokenProvider;
 import org.example.safetyconnection.service.facade.FCMService;
@@ -19,6 +20,7 @@ public class NotificationController {
 
   private final FCMService fcmService;
   private final JwtTokenProvider jwtTokenProvider;
+  private final QrCodeGeneratorService qrCodeGeneratorService;
 
   @PostMapping("/send-noti")
   public ResponseEntity<String> sendRequest(HttpServletRequest httpServletRequest,
@@ -31,15 +33,5 @@ public class NotificationController {
     log.info("메세지 전송 성공");
 
     return ResponseEntity.ok(notiResult);
-  }
-
-  @PostMapping("/send-move-noti")
-  public ResponseEntity<String> sendCarMoveRequest(HttpServletRequest httpServletRequest,
-                                                   @RequestBody FCMNotificationRequestDTO fcmNotificationRequestDTO) {
-    String accessToken = httpServletRequest.getHeader("access");
-    Long userId = jwtTokenProvider.getUserIdFromToken(accessToken);
-
-    String username =
-    String notiResult = fcmService.sendNotification(fcmNotificationRequestDTO);
   }
 }

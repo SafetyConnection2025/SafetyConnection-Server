@@ -26,6 +26,4 @@ public class QrCodeGeneratorController {
 
 		return ResponseEntity.ok(qrImage);
 	}
-
-
 }
