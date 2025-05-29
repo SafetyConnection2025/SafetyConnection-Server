@@ -20,7 +20,7 @@ import org.opencv.videoio.VideoCapture;
 import org.opencv.videoio.Videoio;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Base64;
 
 @Service
 public class Yolov8DetectionSerivce {
@@ -51,6 +51,7 @@ public class Yolov8DetectionSerivce {
 
         Mat frame = new Mat();
         MatOfByte mob = new MatOfByte();
+        byte[] imageBytes;
         String message = "탐지된 무기가 없습니다";
         try (ZooModel<Image, DetectedObjects> model = criteria.loadModel(); Predictor<Image, DetectedObjects> predictor = model.newPredictor()) {
             // 프레임 단위로 영상처리
@@ -63,7 +64,6 @@ public class Yolov8DetectionSerivce {
                 if (detections.getNumberOfObjects() == 0) {
                     continue;
                 } else {
-                    System.out.println("객체 탐지");
                     DetectedObjects.DetectedObject obj = detections.best();
                     Rectangle r = obj.getBoundingBox().getBounds();
                     int x = (int) (r.getX());
@@ -97,6 +97,8 @@ public class Yolov8DetectionSerivce {
         } finally {
             cap.release();
         }
-        return new DetectedObjectResponseDTO(mob.toArray(), message);
+        imageBytes = mob.toArray();
+        String encodedImage = Base64.getEncoder().encodeToString(imageBytes);
+        return new DetectedObjectResponseDTO(encodedImage);
     }
 }
