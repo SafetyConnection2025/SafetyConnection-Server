@@ -3,19 +3,18 @@ package org.example.safetyconnection.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.safetyconnection.dto.request.DetectedObjectRequestDTO;
 import org.example.safetyconnection.dto.request.FCMTokenReqDTO;
-import org.example.safetyconnection.dto.response.CompanionResDTO;
+import org.example.safetyconnection.dto.response.*;
 import org.example.safetyconnection.dto.LogInDTO;
 import org.example.safetyconnection.dto.request.MemberReqDTO;
 import org.example.safetyconnection.dto.request.MemberLocationReqDTO;
-import org.example.safetyconnection.dto.response.FCMTokenResDTO;
-import org.example.safetyconnection.dto.response.MemberLocationResDTO;
-import org.example.safetyconnection.dto.response.MemberResDTO;
 import org.example.safetyconnection.jwt.JwtToken;
 import org.example.safetyconnection.jwt.JwtTokenProvider;
 import org.example.safetyconnection.service.facade.CompanionService;
 import org.example.safetyconnection.service.facade.FCMService;
 import org.example.safetyconnection.service.facade.MemberService;
+import org.example.safetyconnection.service.yolov8.Yolov8DetectionSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
@@ -30,16 +29,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberController {
 
-  @Autowired
-  private MemberService memberService;
-  @Autowired
-  private CompanionService companionService;
-  @Autowired
-  private FCMService fcmService;
-  @Autowired
-  private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private CompanionService companionService;
+    @Autowired
+    private FCMService fcmService;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private Yolov8DetectionSerivce yolov8DetectionSerivce;
 
-  @PostMapping("/login")
+    @GetMapping("/health")
+    public String healthCheck() {
+        return "Server is running";
+    }
+
+    @PostMapping("/login")
     public JwtToken getLoginInfo(@RequestBody LogInDTO logInDTO) {
         JwtToken jwtToken = memberService.logIn(logInDTO);
 
@@ -146,7 +152,7 @@ public class MemberController {
         return ResponseEntity.ok(memberResDTO.name() + ", 회원가입이 완료되었습니다.");
     }
 
-   
+
     @GetMapping("/{compId}/sendNotification")
     public ResponseEntity<FCMTokenResDTO> sendNotification(@PathVariable Long compId) {
         log.info("id: {} 사용자의 토큰 조회", compId);
@@ -181,13 +187,20 @@ public class MemberController {
     }
 
     @GetMapping("/{uid}/getToken")
-  public ResponseEntity<FCMTokenResDTO> getFCMToken(@PathVariable String uid) {
-    log.info("uid: {} 사용자의 토큰 조회", uid);
+    public ResponseEntity<FCMTokenResDTO> getFCMToken(@PathVariable String uid) {
+        log.info("uid: {} 사용자의 토큰 조회", uid);
 
-    FCMTokenResDTO fcmTokenResDTO = fcmService.getFCMTokenByUid(uid);
+        FCMTokenResDTO fcmTokenResDTO = fcmService.getFCMTokenByUid(uid);
 
-    log.info("사용자 토큰 조회 완료: token = {}", fcmTokenResDTO.fcmToken());
+        log.info("사용자 토큰 조회 완료: token = {}", fcmTokenResDTO.fcmToken());
 
-    return ResponseEntity.ok(fcmTokenResDTO);
-  }
+        return ResponseEntity.ok(fcmTokenResDTO);
+    }
+
+    @GetMapping("/detectobjecct")
+    public ResponseEntity<DetectedObjectResponseDTO> getDetectedObject(DetectedObjectRequestDTO detectedObjectRequestDTO) {
+        DetectedObjectResponseDTO detectedObjectResponseDTO = yolov8DetectionSerivce.detect(detectedObjectRequestDTO);
+        log.info("객체 탐지 결과: {}", detectedObjectResponseDTO.message());
+        return ResponseEntity.ok(detectedObjectResponseDTO);
+    }
 }
