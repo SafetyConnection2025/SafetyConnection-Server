@@ -21,7 +21,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         // 내가 추가한 부분
-        String bearerToken = request.getHeader("Authorization");
+        String bearerToken = request.getHeader("access");
         log.info(">>> Authorization 헤더 값: {}", bearerToken);
 
         String token = null;
