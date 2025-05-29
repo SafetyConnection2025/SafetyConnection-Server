@@ -2,7 +2,9 @@ package org.example.safetyconnection.dto.request;
 
 import com.google.firebase.messaging.AndroidConfig;
 
-public record FCMNotificationRequestDTO(MessageDTO message, Long compId, Double latitude, Double longitude) {
+public record FCMNotificationRequestDTO(MessageDTO message) {
+
+
   public record MessageDTO(String token, NotificationDTO notification, DataDTO data, AndroidDTO android) {}
 
   public record NotificationDTO(String title, String body) {}

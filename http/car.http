@@ -43,3 +43,5 @@ Content-Type: application/json
 {
   "scannedUsername": "jonggang"
 }
+###
+GET http://localhost:8080/companions/recent

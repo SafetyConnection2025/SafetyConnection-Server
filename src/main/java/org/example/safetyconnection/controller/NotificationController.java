@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.example.safetyconnection.dto.request.CompanionCallRequestDTO;
 import org.example.safetyconnection.dto.request.CompanionReqDTO;
 import org.example.safetyconnection.dto.response.MemberResDTO;
 import org.example.safetyconnection.entity.Member;
@@ -31,22 +32,21 @@ public class NotificationController {
 
   @PostMapping("/send-noti")
   public ResponseEntity<String> sendRequest(HttpServletRequest httpServletRequest,
-                                                   @RequestBody FCMNotificationRequestDTO fcmNotificationRequestDTO) {
+      @RequestBody CompanionCallRequestDTO requestDTO) {
     String accessToken = httpServletRequest.getHeader("access");
     Long userId = jwtTokenProvider.getUserIdFromToken(accessToken);
 
-    String notiResult = fcmService.sendNotification(fcmNotificationRequestDTO);
-    
+    FCMNotificationRequestDTO fcmDTO = new FCMNotificationRequestDTO(requestDTO.message());
+    String notiResult = fcmService.sendNotification(fcmDTO);
+
     companionCommandService.updateCompanionRequest(
         new CompanionReqDTO(
             userId,
-            fcmNotificationRequestDTO.compId(),
-            fcmNotificationRequestDTO.latitude(),
-            fcmNotificationRequestDTO.longitude()
+            requestDTO.companionId(),
+            requestDTO.latitude(),
+            requestDTO.longitude()
         )
     );
-
-    log.info("메세지 전송 성공");
 
     return ResponseEntity.ok(notiResult);
   }
