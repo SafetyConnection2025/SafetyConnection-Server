@@ -45,3 +45,17 @@ Content-Type: application/json
 }
 ###
 GET http://localhost:8080/companions/recent
+access: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0MDAwMSIsInVzZXJJZCI6NCwidXNlcm5hbWUiOiJ0ZXN0MDAwMSIsImF1dGgiOiJOT1JNQUwiLCJleHAiOjE3NDg1Mjg5MzV9.NuEpXE76466EEqB8eSwbV1NcOvyJDOjNgUy4uVVmNTko2pqs1cClN8fezzzVfzcA
+
+
+
+###
+POST http://localhost:8080/users/login
+Content-Type: application/json
+
+{
+  "username": "test0001",
+  "password": "test1234"
+}
+
+
