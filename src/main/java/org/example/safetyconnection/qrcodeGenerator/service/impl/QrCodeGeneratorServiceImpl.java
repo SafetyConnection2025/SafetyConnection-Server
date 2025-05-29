@@ -1,14 +1,12 @@
-package org.example.safetyconnection.QrcodeGenerator.service.impl;
+package org.example.safetyconnection.qrcodeGenerator.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.example.safetyconnection.QrcodeGenerator.Repository.QrGeneratorRepository;
-import org.example.safetyconnection.QrcodeGenerator.domain.QrGenerator;
-import org.example.safetyconnection.QrcodeGenerator.dto.request.QrGenerateRequestDTO;
-import org.example.safetyconnection.QrcodeGenerator.service.QrCodeGeneratorService;
-import org.example.safetyconnection.exception.CompanionNotFoundException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.example.safetyconnection.qrcodeGenerator.Repository.QrGeneratorRepository;
+import org.example.safetyconnection.qrcodeGenerator.domain.QrGenerator;
+import org.example.safetyconnection.qrcodeGenerator.dto.request.QrGenerateRequestDTO;
+import org.example.safetyconnection.qrcodeGenerator.service.QrCodeGeneratorService;
 import org.springframework.stereotype.Service;
 
 import com.google.zxing.BarcodeFormat;

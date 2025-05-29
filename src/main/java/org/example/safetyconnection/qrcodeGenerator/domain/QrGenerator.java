@@ -1,4 +1,4 @@
-package org.example.safetyconnection.QrcodeGenerator.domain;
+package org.example.safetyconnection.qrcodeGenerator.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

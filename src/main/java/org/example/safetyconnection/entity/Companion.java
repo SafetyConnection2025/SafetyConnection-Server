@@ -15,29 +15,42 @@ public class Companion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "USER_ID", nullable = false)
-    private Long userId;
 
-    @Column(name = "COMP_USER_ID", nullable = false, length = 50)
-    private Long compUserId;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private Member member; //호출자 아이디
+
+    @ManyToOne
+    @JoinColumn(name = "COMP_USER_ID")
+    private Member companion; //호출자 아이디
+
 
     @Column(name = "recent_request_date_time")
     private LocalDateTime recentRequestDateTime;
 
-    public Companion(Long userId, Long compUserId, int contactCount) {
-        this.userId = userId;
-        this.compUserId = compUserId;
+    private Double longitude;
+
+    private Double latitude;
+
+    public Companion(Member member, Member companion) {
+        this.member = member;
+        this.companion = companion;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
     public void setRecentRequestDateTime(LocalDateTime recentRequestDateTime) {
         this.recentRequestDateTime = recentRequestDateTime;
     }
 
-    @Override
-    public String toString() {
-        return "Companion{" +
-                "userId=" + userId +
-                ", compUserId='" + compUserId + '\'' +
-                '}';
+
+    public Object getCompUserId() {
+        return companion.getUserId();
     }
 }

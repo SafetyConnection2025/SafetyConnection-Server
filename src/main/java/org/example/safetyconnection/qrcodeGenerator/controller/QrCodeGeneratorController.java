@@ -1,11 +1,9 @@
-package org.example.safetyconnection.QrcodeGenerator.controller;
+package org.example.safetyconnection.qrcodeGenerator.controller;
 
 import java.util.Base64;
 
-import javax.swing.*;
-
-import org.example.safetyconnection.QrcodeGenerator.dto.request.QrGenerateRequestDTO;
-import org.example.safetyconnection.QrcodeGenerator.service.QrCodeGeneratorService;
+import org.example.safetyconnection.qrcodeGenerator.dto.request.QrGenerateRequestDTO;
+import org.example.safetyconnection.qrcodeGenerator.service.QrCodeGeneratorService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

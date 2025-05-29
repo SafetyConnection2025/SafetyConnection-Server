@@ -2,7 +2,7 @@ package org.example.safetyconnection.service.query;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.safetyconnection.QrcodeGenerator.Repository.QrGeneratorRepository;
+import org.example.safetyconnection.qrcodeGenerator.Repository.QrGeneratorRepository;
 import org.example.safetyconnection.dto.response.FCMTokenResDTO;
 import org.example.safetyconnection.exception.UserIdNotFoundException;
 import org.example.safetyconnection.repository.MemberRepository;

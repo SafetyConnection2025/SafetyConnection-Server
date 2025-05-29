@@ -1,6 +1,6 @@
-package org.example.safetyconnection.QrcodeGenerator.Repository;
+package org.example.safetyconnection.qrcodeGenerator.Repository;
 
-import org.example.safetyconnection.QrcodeGenerator.domain.QrGenerator;
+import org.example.safetyconnection.qrcodeGenerator.domain.QrGenerator;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

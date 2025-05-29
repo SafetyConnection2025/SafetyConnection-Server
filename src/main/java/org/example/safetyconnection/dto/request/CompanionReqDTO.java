@@ -1,4 +1,8 @@
 package org.example.safetyconnection.dto.request;
 
-public record CompanionReqDTO(Long compUserId) {
+import java.time.LocalDateTime;
+
+import org.example.safetyconnection.entity.Member;
+
+public record CompanionReqDTO(long userId, long compId, double latitude, double longitude) {
 }

@@ -3,9 +3,8 @@ package org.example.safetyconnection.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.example.safetyconnection.QrcodeGenerator.Repository.QrGeneratorRepository;
-import org.example.safetyconnection.QrcodeGenerator.domain.QrGenerator;
-import org.example.safetyconnection.QrcodeGenerator.dto.request.QrGenerateRequestDTO;
+import org.example.safetyconnection.qrcodeGenerator.Repository.QrGeneratorRepository;
+import org.example.safetyconnection.qrcodeGenerator.domain.QrGenerator;
 import org.springframework.ui.Model;
 import org.example.safetyconnection.dto.request.QrScanRequestDTO;
 import org.example.safetyconnection.dto.request.FCMNotificationRequestDTO;
