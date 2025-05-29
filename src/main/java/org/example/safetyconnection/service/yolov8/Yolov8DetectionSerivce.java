@@ -52,7 +52,6 @@ public class Yolov8DetectionSerivce {
         Mat frame = new Mat();
         MatOfByte mob = new MatOfByte();
         byte[] imageBytes;
-        String message = "탐지된 무기가 없습니다";
         try (ZooModel<Image, DetectedObjects> model = criteria.loadModel(); Predictor<Image, DetectedObjects> predictor = model.newPredictor()) {
             // 프레임 단위로 영상처리
             while (cap.read(frame)) {
@@ -87,7 +86,6 @@ public class Yolov8DetectionSerivce {
                             2
                     );
                     Imgcodecs.imencode(".png", dst, mob);
-                    message = obj.getClassName();
                     break;
                 }
             }
