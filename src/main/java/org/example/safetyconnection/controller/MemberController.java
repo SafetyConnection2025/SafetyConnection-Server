@@ -16,6 +16,7 @@ import org.example.safetyconnection.service.facade.FCMService;
 import org.example.safetyconnection.service.facade.MemberService;
 import org.example.safetyconnection.service.yolov8.Yolov8DetectionSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -197,8 +198,8 @@ public class MemberController {
         return ResponseEntity.ok(fcmTokenResDTO);
     }
 
-    @GetMapping("/detectobjecct")
-    public ResponseEntity<DetectedObjectResponseDTO> getDetectedObject(DetectedObjectRequestDTO detectedObjectRequestDTO) {
+    @PostMapping(value = "/detectobject")
+    public ResponseEntity<DetectedObjectResponseDTO> detectObject(@RequestBody DetectedObjectRequestDTO detectedObjectRequestDTO) {
         DetectedObjectResponseDTO detectedObjectResponseDTO = yolov8DetectionSerivce.detect(detectedObjectRequestDTO);
         log.info("객체 탐지 결과: {}", detectedObjectResponseDTO.message());
         return ResponseEntity.ok(detectedObjectResponseDTO);
