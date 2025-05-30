@@ -201,6 +201,7 @@ public class MemberController {
     @PostMapping(value = "/detectobject")
     public ResponseEntity<DetectedObjectResponseDTO> detectObject(@RequestBody DetectedObjectRequestDTO detectedObjectRequestDTO) {
         DetectedObjectResponseDTO detectedObjectResponseDTO = yolov8DetectionSerivce.detect(detectedObjectRequestDTO);
+        log.info("객체 탐지 완료: file = {}", detectedObjectRequestDTO.filename());
         return ResponseEntity.ok(detectedObjectResponseDTO);
     }
 }

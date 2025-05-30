@@ -13,11 +13,12 @@ import ai.djl.repository.zoo.ZooModel;
 import ai.djl.translate.Translator;
 import org.example.safetyconnection.dto.request.DetectedObjectRequestDTO;
 import org.example.safetyconnection.dto.response.DetectedObjectResponseDTO;
+import org.example.safetyconnection.exception.FileNotFoundException;
+import org.example.safetyconnection.exception.ObjectDetectionFailedException;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
-import org.opencv.videoio.Videoio;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
@@ -27,7 +28,7 @@ public class Yolov8DetectionSerivce {
     private final OpenCVImageFactory imageFactory = new OpenCVImageFactory();
     private final Translator<Image, DetectedObjects> translator = YoloV8Translator.builder()
             .addTransform(new ToTensor())
-            .optThreshold(0.25f)
+            .optThreshold(0.35f)
             .optNmsThreshold(0.45f)
             .build();
 
@@ -43,11 +44,8 @@ public class Yolov8DetectionSerivce {
         VideoCapture cap = new VideoCapture(detectedObjectRequestDTO.filename());
 
         if (!cap.isOpened()) {
-            throw new RuntimeException("Video capture not opened");
+            throw new FileNotFoundException(detectedObjectRequestDTO.filename());
         }
-        double fps = cap.get(Videoio.CAP_PROP_FPS);
-        double width = cap.get(Videoio.CAP_PROP_FRAME_WIDTH);
-        double height = cap.get(Videoio.CAP_PROP_FRAME_HEIGHT);
 
         Mat frame = new Mat();
         MatOfByte mob = new MatOfByte();
@@ -59,10 +57,11 @@ public class Yolov8DetectionSerivce {
                 Imgproc.resize(frame, dst, new Size(640, 640));
                 Image image = imageFactory.fromImage(dst);
                 DetectedObjects detections = predictor.predict(image);
-                // 프레임에 객체 탐지 결과 표시
-                if (detections.getNumberOfObjects() == 0) {
+
+                if (detections.getNumberOfObjects() == 0) { // 객체가 탐지되지 않은 경우 다음 프레임으로 넘어감
                     continue;
                 } else {
+                    // 프레임에 객체 탐지 결과 표시
                     DetectedObjects.DetectedObject obj = detections.best();
                     Rectangle r = obj.getBoundingBox().getBounds();
                     int x = (int) (r.getX());
@@ -85,18 +84,17 @@ public class Yolov8DetectionSerivce {
                             new Scalar(0, 255, 0),
                             2
                     );
-                    Imgcodecs.imencode(".png", dst, mob);
+                    Imgcodecs.imencode(".png", dst, mob); // 이미지 인코딩
                     break;
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Object detection failed: " + e.getMessage());
+            throw new ObjectDetectionFailedException();
         } finally {
             cap.release();
         }
         imageBytes = mob.toArray();
-        String encodedImage = Base64.getEncoder().encodeToString(imageBytes);
+        String encodedImage = Base64.getEncoder().encodeToString(imageBytes); // Base64로 인코딩
         return new DetectedObjectResponseDTO(encodedImage);
     }
 }
