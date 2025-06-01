@@ -11,6 +11,7 @@ import ai.djl.opencv.OpenCVImageFactory;
 import ai.djl.repository.zoo.Criteria;
 import ai.djl.repository.zoo.ZooModel;
 import ai.djl.translate.Translator;
+import lombok.extern.slf4j.Slf4j;
 import org.example.safetyconnection.dto.request.DetectedObjectRequestDTO;
 import org.example.safetyconnection.dto.response.DetectedObjectResponseDTO;
 import org.example.safetyconnection.exception.FileNotFoundException;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 
+@Slf4j
 @Service
 public class Yolov8DetectionSerivce {
     private final OpenCVImageFactory imageFactory = new OpenCVImageFactory();
@@ -43,9 +45,10 @@ public class Yolov8DetectionSerivce {
     public DetectedObjectResponseDTO detect(DetectedObjectRequestDTO detectedObjectRequestDTO) {
         VideoCapture cap = new VideoCapture(detectedObjectRequestDTO.filename());
 
-/*        if (!cap.isOpened()) {
-            throw new FileNotFoundException(detectedObjectRequestDTO.filename());
-        }*/
+       if (!cap.isOpened()) {
+           log.info("cap.isOpened");
+           // throw new FileNotFoundException(detectedObjectRequestDTO.filename());
+        }
 
         Mat frame = new Mat();
         MatOfByte mob = new MatOfByte();
