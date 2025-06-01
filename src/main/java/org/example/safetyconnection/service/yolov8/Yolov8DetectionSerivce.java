@@ -43,9 +43,9 @@ public class Yolov8DetectionSerivce {
     public DetectedObjectResponseDTO detect(DetectedObjectRequestDTO detectedObjectRequestDTO) {
         VideoCapture cap = new VideoCapture(detectedObjectRequestDTO.filename());
 
-        if (!cap.isOpened()) {
+/*        if (!cap.isOpened()) {
             throw new FileNotFoundException(detectedObjectRequestDTO.filename());
-        }
+        }*/
 
         Mat frame = new Mat();
         MatOfByte mob = new MatOfByte();
