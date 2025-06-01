@@ -16,7 +16,7 @@ public class ObjectDetectionWebSocketHandler extends TextWebSocketHandler {
 
   @Override
   public void afterConnectionEstablished(WebSocketSession session) {
-    log.info("Connected to yolov8");
+    log.info("Connected to Yolov8");
   }
 
   @Override
