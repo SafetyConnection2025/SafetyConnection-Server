@@ -28,7 +28,7 @@ public class Yolov8DetectionSerivce {
     private final OpenCVImageFactory imageFactory = new OpenCVImageFactory();
     private final Translator<Image, DetectedObjects> translator = YoloV8Translator.builder()
             .addTransform(new ToTensor())
-            .optThreshold(0.35f)
+            .optThreshold(0.40f)
             .optNmsThreshold(0.45f)
             .build();
 
@@ -63,6 +63,7 @@ public class Yolov8DetectionSerivce {
                 } else {
                     // 프레임에 객체 탐지 결과 표시
                     DetectedObjects.DetectedObject obj = detections.best();
+                    System.out.println("Detected: " + obj.getClassName() + " with probability: " + obj.getProbability());
                     Rectangle r = obj.getBoundingBox().getBounds();
                     int x = (int) (r.getX());
                     int y = (int) (r.getY());
