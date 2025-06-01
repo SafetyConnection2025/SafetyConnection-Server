@@ -19,14 +19,8 @@ import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.Base64;
 
 @Service
@@ -46,20 +40,11 @@ public class Yolov8DetectionSerivce {
             .optTranslator(translator)
             .build();
 
-    public DetectedObjectResponseDTO detect(DetectedObjectRequestDTO detectedObjectRequestDTO) throws IOException {
-        ClassPathResource resource = new ClassPathResource(detectedObjectRequestDTO.filename());
-        if (!resource.exists()) {
-            throw new FileNotFoundException("File not found: " + detectedObjectRequestDTO.filename());
-        }
+    public DetectedObjectResponseDTO detect(DetectedObjectRequestDTO detectedObjectRequestDTO) {
+        VideoCapture cap = new VideoCapture(detectedObjectRequestDTO.filename());
 
-        Path tempFile = Files.createTempFile("temp-video-", ".mp4");
-        try (InputStream inputStream = resource.getInputStream()) {
-            Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
-        }
-
-        VideoCapture cap = new VideoCapture(tempFile.toString());
         if (!cap.isOpened()) {
-            throw new FileNotFoundException("Failed to open video file: " + tempFile);
+            throw new FileNotFoundException(detectedObjectRequestDTO.filename());
         }
 
         Mat frame = new Mat();
