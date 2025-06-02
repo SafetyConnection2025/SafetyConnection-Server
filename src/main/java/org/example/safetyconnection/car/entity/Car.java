@@ -1,12 +1,11 @@
 package org.example.safetyconnection.car.entity;
 
-import org.example.safetyconnection.entity.Member;
+import org.example.safetyconnection.member.entity.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;

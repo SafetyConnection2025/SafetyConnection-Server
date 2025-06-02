@@ -7,13 +7,11 @@ import org.example.safetyconnection.car.entity.Car;
 import org.example.safetyconnection.car.exception.CarIdAlreadyExistsException;
 import org.example.safetyconnection.car.repository.CarRepository;
 import org.example.safetyconnection.car.service.CarService;
-import org.example.safetyconnection.entity.Member;
-import org.example.safetyconnection.exception.UserNameNotFoundException;
-import org.example.safetyconnection.repository.MemberRepository;
-import org.springframework.http.ResponseEntity;
+import org.example.safetyconnection.member.entity.Member;
+import org.example.safetyconnection.common.exception.UserNameNotFoundException;
+import org.example.safetyconnection.member.repository.MemberRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
 
