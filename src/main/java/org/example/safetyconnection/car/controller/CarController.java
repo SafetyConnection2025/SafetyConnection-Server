@@ -1,5 +1,6 @@
 package org.example.safetyconnection.car.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.example.safetyconnection.car.dto.request.CarRegisterRequestDTO;
 import org.example.safetyconnection.car.dto.request.CarRequestDTO;
 import org.example.safetyconnection.car.dto.response.CarResponseDTO;
@@ -15,26 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user/car")
+@RequiredArgsConstructor
 public class CarController {
-	private final CarService carService;
 
-	public CarController(CarService carService) {
-		this.carService = carService;
-	}
+  private final CarService carService;
 
-	@PostMapping("/register")
-	public ResponseEntity<Void> registerCar(@RequestBody CarRegisterRequestDTO requestDTO) {
-		carService.registerCar(requestDTO);
-		return ResponseEntity.status(HttpStatus.CREATED).build();
-	}
+  @PostMapping("/register")
+  public ResponseEntity<Void> registerCar(@RequestBody CarRegisterRequestDTO requestDTO) {
+    carService.registerCar(requestDTO);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
 
 
-	@GetMapping("/{userId}")
-	public ResponseEntity<CarResponseDTO> getCarId(@PathVariable("userId") String userId) {
-		CarRequestDTO requestDTO = new CarRequestDTO(userId);
-
-		CarResponseDTO carResponseDTO = carService.getCarByUsername(requestDTO);
-		return ResponseEntity.status(HttpStatus.OK).body(carResponseDTO);
-	}
+  @GetMapping("/{userId}")
+  public ResponseEntity<CarResponseDTO> getCarId(@PathVariable("userId") String userId) {
+    CarRequestDTO requestDTO = new CarRequestDTO(userId);
+    CarResponseDTO carResponseDTO = carService.getCarByUsername(requestDTO);
+    return ResponseEntity.ok(carResponseDTO);
+  }
 
 }
